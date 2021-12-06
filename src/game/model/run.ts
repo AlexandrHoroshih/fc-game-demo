@@ -35,8 +35,10 @@ const botLib: GameState["lib"] = {
     let distance = 10_000;
     for (let i = 1; i < enemies.length; i++) {
       const maybeClosest = enemies[i];
-      if (botLib.getDistance(maybeClosest, current) < distance) {
+      const currentDistance = botLib.getDistance(maybeClosest, current);
+      if (currentDistance < distance) {
         closest = maybeClosest;
+        distance = currentDistance;
       }
     }
 
