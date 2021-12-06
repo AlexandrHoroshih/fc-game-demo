@@ -11,8 +11,12 @@ const botLib: GameState["lib"] = {
       (l.position.x - r.position.x) ** 2 + (l.position.y - r.position.y) ** 2
     ),
   getDir: (me: Bot, bot: Bot): Dir => {
-    let ydir = "n";
+    let ydir = "";
     let xdir = "";
+
+    if (bot.position.y > me.position.y) {
+      ydir = "n"
+    }
 
     if (bot.position.y < me.position.y) {
       ydir = "s";
