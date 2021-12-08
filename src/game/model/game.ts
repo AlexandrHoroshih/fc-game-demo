@@ -469,7 +469,7 @@ sample({
 });
 
 const $iteration = createStore(0).on(tick, (s) => s + 1);
-const $maxSteps = createStore(100);
+const $maxSteps = createStore(200);
 
 const maxStepsHit = guard({
   source: [$iteration, $maxSteps],
