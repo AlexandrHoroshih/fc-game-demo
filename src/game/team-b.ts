@@ -18,7 +18,7 @@ const teamB = (game: GameState): Action => {
   }
 
   return {
-    type: "move",
+    type: "rotate",
     dir: closestDir,
     id: current.id,
   };
