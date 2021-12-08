@@ -5,6 +5,23 @@ import type { GameSize, GameState, Bot, Dir } from "./types";
 import teamA from "../team-a";
 import teamB from "../team-b";
 
+const createHook = (stash: Record<string, any>) => {
+  let i = 0;
+
+  const useStash = <T = any>(init: T) => {
+    const local = i;
+    stash[local] = stash[local] ?? init;
+
+    const setStash = (v: T) => {
+      stash[local] = v
+    }
+    i++;
+    return [stash[local], setStash] as const;
+  }
+
+  return useStash;
+}
+
 const botLib: GameState["lib"] = {
   getDistance: (l: Bot, r: Bot) =>
     Math.sqrt(
@@ -74,14 +91,14 @@ export const createGame = (config: { size: GameSize; interval: number }) => {
       [
         GameModel.teamAMoveFx,
         (game: GameStateBase) =>
-          teamA({ ...game, lib: botLib, meta: { field: config.size } }) ?? {
+          teamA({ ...game, lib: botLib, meta: { field: config.size }, useStash: createHook(game.stash) }) ?? {
             type: "nothing ",
           },
       ],
       [
         GameModel.teamBMoveFx,
         (game: GameStateBase) =>
-          teamB({ ...game, lib: botLib, meta: { field: config.size } }) ?? {
+          teamB({ ...game, lib: botLib, meta: { field: config.size }, useStash: createHook(game.stash) }) ?? {
             type: "nothing ",
           },
       ],

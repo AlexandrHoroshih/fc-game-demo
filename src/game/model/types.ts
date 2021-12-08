@@ -58,5 +58,6 @@ export type GameState = {
   };
   meta: {
     field: GameSize;
-  }
+  },
+  useStash: <T = any>(init: T) => readonly [T, (next: T) => void]
 }
