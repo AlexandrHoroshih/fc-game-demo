@@ -17,9 +17,22 @@ const teamA = (game: GameState): Action => {
     };
   }
 
+  // defence move example
+  if (game.lib.inGunRange(closest, current)) {
+    return {
+      type: "move",
+      dir: game.lib.getRot(closestDir, 1),
+      id: current.id,
+    };
+  }
+
+  const distance = game.lib.getDistance(current, closest);
+  const far = distance > 4;
+  const canHit = distance < 3
+
   return {
     type: "move",
-    dir: closestDir,
+    dir: (canHit || far) ? closestDir : game.lib.getRot(closestDir, 1),
     id: current.id,
   };
 };
