@@ -15,7 +15,7 @@ const botLib: GameState["lib"] = {
     let xdir = "";
 
     if (bot.position.y > me.position.y) {
-      ydir = "n"
+      ydir = "n";
     }
 
     if (bot.position.y < me.position.y) {
@@ -50,6 +50,21 @@ const botLib: GameState["lib"] = {
   },
   inGunRange: (me: Bot, target: Bot) => {
     return libInGunRange(me.position, me.viewDir, target.position).inRange;
+  },
+  getRot: (dir: Dir, angle: number): Dir => {
+    const dirs = ["n", "ne", "e", "se", "s", "sw", "w", "nw"] as const;
+    const dirIndex = dirs.findIndex((d) => d === dir);
+    let nextIndex = dirIndex + angle;
+
+    while (nextIndex > dirs.length) {
+      nextIndex = nextIndex - dirs.length;
+     }
+
+    if (nextIndex < 0) {
+      nextIndex = dirs.length + nextIndex;
+    }
+
+    return dirs[nextIndex];
   },
 };
 
