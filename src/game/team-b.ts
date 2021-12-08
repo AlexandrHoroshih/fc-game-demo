@@ -1,11 +1,12 @@
 import type { GameState, Action } from "./model/types";
 
 const teamB = (game: GameState): Action => {
-  game.stash.last =
-    typeof game.stash.last !== "undefined" ? game.stash.last : 0;
-  const next = game.stash.last + 1;
-  game.stash.last = next < game.myBots.length ? next : 0;
-  const current = game.myBots[game.stash.last];
+  // rules are the same as for react hooks, order must not change
+  const [last, setLast] = game.useStash(0);
+  const next = (last + 1) < game.myBots.length ? last + 1 : 0;
+  const current = game.myBots[last];
+  setLast(next)
+
 
   const closest = game.lib.findClosest(current, game.enemyBots);
   const closestDir = game.lib.getDir(current, closest);
