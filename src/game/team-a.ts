@@ -43,10 +43,19 @@ const teamA = (game: GameState): Action => {
 
   const distance = game.lib.getDistance(current, closest);
   const far = distance > 4;
+  let nextDir = closestDir;
+
+  if (nextDir.includes("e") && !far) {
+    nextDir = game.lib.getRot(closestDir, current.position.y > 5 ? 1 : -1);
+  }
+
+  if (nextDir.includes("w") && !far) {
+    nextDir = game.lib.getRot(closestDir, current.position.y > 5 ? -1 : 1);
+  }
 
   return {
     type: "move",
-    dir: (far) ? closestDir : game.lib.getRot(closestDir, 1),
+    dir: nextDir,
     id: current.id,
   };
 };
